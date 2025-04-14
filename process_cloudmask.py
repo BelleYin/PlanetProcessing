@@ -3,8 +3,8 @@ import geopandas as gpd
 import shutil
 import os
 from cloud_clear.planetscope import PlanetScope
-from cloud_clear.rapideye import RapidEye
-from compositing import create_median_composite  # Add this import
+from cloud_clear.rapideye import RapidEye  # This now uses the enhanced version
+from compositing import create_median_composite
 
 # Define directories
 base_dir = "/Users/belle/Desktop/Planet"
@@ -26,7 +26,7 @@ for folder in folders:
     print(f"\nProcessing folder: {folder}")
     
     if 'psscene' in folder.lower():
-        # Look for .tif files in the PSScene subfolder
+        # PlanetScope processing (unchanged)
         file_list = glob.glob(f"{folder}/PSScene/*.tif")
         print(f"Found {len(file_list)} .tif files in {folder}/PSScene")
         processor = PlanetScope(
@@ -35,10 +35,10 @@ for folder in folders:
             aoi=aoi
         )
     elif 'reorthotile' in folder.lower():
-        # Look for .tif files in the REOrthoTile subfolder
+        # RapidEye processing with enhanced masking
         file_list = glob.glob(f"{folder}/REOrthoTile/*.tif")
         print(f"Found {len(file_list)} .tif files in {folder}/REOrthoTile")
-        processor = RapidEye(
+        processor = RapidEye(  # Uses the enhanced version
             tmp_dir=f"{folder}/tmp",
             output_dir=os.path.join(output_base_dir, "RapidEye"),
             aoi=aoi
