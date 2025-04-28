@@ -82,10 +82,11 @@ class RapidEye(CloudClearBase):
         """Efficient shadow projection using Bresenham's line algorithm"""
         angle_rad = radians(angle_deg)
         dx, dy = cos(angle_rad), -sin(angle_rad)  # Negative dy for image coords
+        # Converts degress to radians
         
         h, w = mask.shape
         output = np.zeros_like(mask, dtype=bool)
-        y, x = np.where(mask)
+        y, x = np.where(mask) # Identifies starting points for shadow projection
         
         for cy, cx in zip(y, x):
             end_x = int(cx + dx * max_distance)
